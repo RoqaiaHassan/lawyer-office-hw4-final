@@ -1,0 +1,13 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}إرسال قضية جديدة{% endblock %}
+{% block content %}
+<div class="container"
+    style="max-width: 700px; margin: 40px auto; padding: 24px; background: rgba(255,255,255,0.04); border: 1px solid #c5a059; border-radius: 16px;">
+    <h2 style="color:#c5a059;">إرسال قضية جديدة</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="nav-btn" style="border:none; cursor:pointer;">إرسال القضية</button>
+    </form>
+</div>
+{% endblock %}

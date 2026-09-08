@@ -1,0 +1,177 @@
+{% extends 'lawyer/base.html' %}
+{% load custom_filters %}
+
+{% block title %}خدماتنا - مكتب رؤية للمحاماة{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        padding: 6rem 5% 3rem;
+        background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.95)),
+            url('https://images.unsplash.com/photo-1453928582365-b6ad33cbcf64?auto=format&fit=crop&w=1950&q=80') center/cover;
+        text-align: center;
+        border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    }
+
+    .page-header h1 {
+        font-size: 3rem;
+        color: var(--light-gold);
+        margin-bottom: 1rem;
+    }
+
+    .page-header p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .services-section {
+        padding: 5rem 5%;
+        background: var(--primary-dark);
+    }
+
+    .services-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .service-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(197, 160, 89, 0.1);
+        padding: 2.5rem 2rem;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-gold), transparent);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.04);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .service-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .service-icon {
+        width: 70px;
+        height: 70px;
+        background: rgba(197, 160, 89, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .service-icon i {
+        font-size: 2rem;
+        color: var(--primary-gold);
+    }
+
+    .service-card h3 {
+        color: var(--light-gold);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .service-card p {
+        color: var(--text-light);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .service-price {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px dashed rgba(197, 160, 89, 0.2);
+        color: var(--primary-gold);
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <h1>خدماتنا القانونية</h1>
+    <p>نقدم مجموعة شاملة من الخدمات القانونية المصممة لحماية مصالحك وتحقيق أهدافك.</p>
+</header>
+
+<section class="services-section">
+    <div class="services-container">
+        <!-- Service 1 -->
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <!-- تطبيق فلتر الهاشتاج على العنوان -->
+            <h3>{{ "القضايا التجارية والشركات"|to_hashtag }}</h3>
+            <p>تأسيس الشركات، تصفيتها، صياغة ومراجعة العقود التجارية، وتسوية المنازعات بين الشركاء وحقوق الامتياز
+                التجاري (الفرنشايز).</p>
+            <!-- تطبيق فلتر تنسيق الأتعاب -->
+            <div class="service-price">تبدأ من: {{ 150000|fees_format }}</div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-users"></i></div>
+            <h3>{{ "الأحوال الشخصية"|to_hashtag }}</h3>
+            <p>التمثيل القانوني في قضايا الطلاق، الخلع، النفقة، الحضانة، الزيارة، بالإضافة إلى قضايا المواريث وتقسيم
+                التركات وتصفيتها.</p>
+            <div class="service-price">تبدأ من: {{ 80000|fees_format }}</div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-handcuffs"></i></div>
+            <h3>{{ "القضايا الجنائية"|to_hashtag }}</h3>
+            <p>الدفاع والمرافعة في جميع القضايا الجنائية، الجرائم الاقتصادية، قضايا التزوير، والجرائم المعلوماتية
+                والإلكترونية.</p>
+            <div class="service-price">تبدأ من: {{ 200000|fees_format }}</div>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-building"></i></div>
+            <h3>{{ "العقارات والمقاولات"|to_hashtag }}</h3>
+            <p>إدارة الأملاك، منازعات العقود الهندسية والمقاولات، قضايا الإخلاء، ونقل الملكيات وإفراغ العقارات.</p>
+            <div class="service-price">تبدأ من: {{ 120000|fees_format }}</div>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-scale-unbalanced"></i></div>
+            <h3>{{ "القضايا العمالية"|to_hashtag }}</h3>
+            <p>تمثيل العمال وأصحاب العمل في منازعات العقود، الأجور، مكافأة نهاية الخدمة، وإصابات العمل أمام المحاكم
+                العمالية.</p>
+            <div class="service-price">تبدأ من: {{ 90000|fees_format }}</div>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="service-card">
+            <div class="service-icon"><i class="fa-solid fa-file-contract"></i></div>
+            <h3>{{ "الاستشارات القانونية وصياغة العقود"|to_hashtag }}</h3>
+            <p>تقديم استشارات شفهية ومكتوبة دقيقة، بالإضافة إلى صياغة ومراجعة كافة أنواع العقود لضمان الحماية القانونية
+                للعميل.</p>
+            <div class="service-price">تبدأ من: {{ 30000|fees_format }}</div>
+        </div>
+    </div>
+</section>
+{% endblock %}

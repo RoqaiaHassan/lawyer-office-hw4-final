@@ -1,0 +1,45 @@
+{% extends 'lawyer/base.html' %}
+{% load custom_filters %}
+{% block title %}قائمة القضايا{% endblock %}
+{% block content %}
+<div style="padding: 30px; max-width: 1100px; margin: 0 auto;">
+    <div
+        style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
+        <h2 style="color:#c5a059; margin:0;">قائمة القضايا</h2>
+        <form method="get" style="display:flex; gap:8px; flex-wrap:wrap;">
+            <input type="text" name="q" value="{{ query|default:'' }}"
+                placeholder="ابحث في نوع القضية أو التطبيق أو العميل"
+                style="padding:8px 12px; border-radius:8px; border:1px solid #c5a059; background:#0f172a; color:#fff; width: 320px;">
+            <button type="submit"
+                style="padding:8px 14px; border-radius:8px; border:none; background:#c5a059; color:#0f172a; font-weight:700;">بحث</button>
+        </form>
+    </div>
+
+    {% if case_forms %}
+    {% for case, form in case_forms %}
+    <div
+        style="background: rgba(255,255,255,0.04); border:1px solid #c5a059; border-radius: 14px; padding: 20px; margin-bottom: 16px;">
+        <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+            <h3 style="color:#fff; margin:0;">{{ case.case_type|legal_simplify }}</h3>
+            <span
+                style="padding:6px 12px; border-radius:999px; background:rgba(197,160,89,0.2); color:#c5a059; font-weight:700;">{{case.get_status_display }}</span>
+        </div>
+        <p style="margin:6px 0; color:#dfe7f1;"><strong>العميل:</strong> {{ case.user.username }}</p>
+        <p style="margin:6px 0; color:#dfe7f1;"><strong>نوع التطبيق:</strong> {{ case.application_type }}</p>
+        <p style="margin:6px 0; color:#dfe7f1;"><strong>الوصف:</strong> {{ case.description|legal_simplify }}</p>
+        <p style="margin:6px 0; color:#dfe7f1;"><strong>المحامي:</strong> {{ case.lawyer.name|default:'لم يتم التعيين بعد' }}</p>
+        {% if is_admin %}
+        <form method="post" action="{% url 'lawyer:case_assign' case.pk %}" style="margin-top:12px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="nav-btn" style="border:none; cursor:pointer;">حفظ التعيين</button>
+        </form>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <div style="padding:24px; text-align:center; border:1px dashed #c5a059; border-radius:12px; color:#dfe7f1;">لا توجد
+        قضايا حالياً.</div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,162 @@
+ :root {
+    --bg-dark: #0f172a;
+    --card-dark: #1e293b;
+    --primary-gold: #c5a059;
+    --text-light: #f8fafc;
+    --text-muted: #94a3b8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.profile-card {
+    background: var(--card-dark);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    max-width: 500px;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(197, 160, 89, 0.2);
+}
+
+.card-header {
+    background-color: #0b1120;
+    padding: 2.5rem 1.5rem 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.avatar-box {
+    width: 90px;
+    height: 90px;
+    background-color: var(--bg-dark);
+    border: 3px solid var(--primary-gold);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1rem;
+    color: var(--primary-gold);
+    font-size: 2.5rem;
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.2);
+}
+
+.card-header h1 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.lawyer-badge {
+    display: inline-block;
+    background: rgba(197, 160, 89, 0.15);
+    color: var(--primary-gold);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* شبكة الإحصائيات (القضايا والخبرة) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    background: var(--bg-dark);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-item h4 {
+    color: var(--primary-gold);
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.stat-item p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+/* تفاصيل البيانات */
+.info-list {
+    margin-bottom: 2rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-label i {
+    color: var(--primary-gold);
+}
+
+.info-value {
+    font-weight: 700;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+/* زر العودة */
+.btn-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--primary-gold);
+    color: var(--bg-dark);
+    padding: 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s ease;
+    width: 100%;
+}
+
+.btn-back:hover {
+    background-color: #d8b26e;
+    transform: translateY(-2px);
+}
+

@@ -1,0 +1,10 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}الملف الشخصي{% endblock %}
+{% block content %}
+<div style="padding: 30px;">
+    <h2 style="color:#c5a059;">الملف الشخصي</h2>
+    <p><strong>اسم المستخدم:</strong> {{ user.username }}</p>
+    <p><strong>البريد:</strong> {{ user.email }}</p>
+    <p><strong>رقم الهاتف:</strong> {{ user.phone_number|default:'-' }}</p>
+</div>
+{% endblock %}

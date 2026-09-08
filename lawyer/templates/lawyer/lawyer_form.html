@@ -1,0 +1,111 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div style="width: 90%; max-width: 600px; margin: 50px auto; direction: rtl;">
+
+    <!-- صندوق النموذج -->
+    <div
+        style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+
+        <h2
+            style="color: var(--light-gold); text-align: center; margin-bottom: 30px; font-size: 1.8rem; font-weight: 700;">
+            <i class="fa-solid fa-user-pen" style="margin-left: 10px; color: var(--primary-gold);"></i> {{ title }}
+        </h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- تنسيق حقول الإدخال الخاصة بـ Django Form تلقائياً -->
+            <div style="color: var(--text-light); margin-bottom: 20px;" class="django-form-fields">
+                {{ form.as_p }}
+            </div>
+
+            <style>
+                /* تنسيق حقول الإدخال لتتطابق مع تصميم الموقع */
+                .django-form-fields p {
+                    margin-bottom: 20px;
+                }
+
+                .django-form-fields label {
+                    display: block;
+                    color: var(--light-gold);
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                }
+
+                .django-form-fields input,
+                .django-form-fields select,
+                .django-form-fields textarea {
+                    width: 100%;
+                    padding: 12px 15px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(197, 160, 89, 0.3);
+                    border-radius: 8px;
+                    color: #fff;
+                    font-family: 'Cairo', sans-serif;
+                    outline: none;
+                    transition: 0.3s;
+                }
+
+                .django-form-fields input:focus,
+                .django-form-fields select:focus,
+                .django-form-fields textarea:focus {
+                    border-color: var(--primary-gold);
+                    box-shadow: 0 0 10px rgba(197, 160, 89, 0.2);
+                }
+
+                .django-form-fields ul.errorlist {
+                    color: #dc3545;
+                    list-style: none;
+                    padding: 0;
+                    margin: 5px 0 0 0;
+                    font-size: 0.85rem;
+                }
+
+                .django-form-fields .specialization-checkboxes,
+                .django-form-fields ul#id_specializations {
+                    list-style: none;
+                    padding: 0;
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                    gap: 10px;
+                    background: rgba(0, 0, 0, 0.2);
+                    padding: 12px;
+                    border-radius: 8px;
+                    border: 1px solid rgba(197, 160, 89, 0.2);
+                }
+
+                .django-form-fields ul#id_specializations li label {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-weight: normal;
+                    color: #e2e8f0;
+                    cursor: pointer;
+                    margin: 0;
+                }
+
+                .django-form-fields ul#id_specializations li input[type="checkbox"] {
+                    width: auto;
+                    margin: 0;
+                }
+            </style>
+
+            <!-- أزرار الحفظ والإلغاء -->
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <button type="submit"
+                    style="flex: 1; background: linear-gradient(135deg, var(--primary-gold) 0%, #a37f3e 100%); color: var(--primary-dark); padding: 12px; border: none; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 10px rgba(197, 160, 89, 0.3); transition: 0.3s;">
+                    <i class="fa-solid fa-check" style="margin-left: 5px;"></i> حفظ البيانات
+                </button>
+                <a href="{% url 'lawyer:lawyer_list' %}"
+                    style="flex: 1; text-align: center; background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); padding: 12px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: 0.3s;"
+                    onmouseover="this.style.borderColor='#fff'; this.style.color='#fff'"
+                    onmouseout="this.style.borderColor='var(--text-muted)'; this.style.color='var(--text-muted)'">
+                    <i class="fa-solid fa-xmark" style="margin-left: 5px;"></i> إلغاء
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

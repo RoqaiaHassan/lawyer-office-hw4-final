@@ -1,0 +1,10 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}الحساب{% endblock %}
+{% block content %}
+<div style="padding: 30px; text-align: center;">
+    <h2 style="color:#c5a059;">نظام الحسابات</h2>
+    <p>يمكنك الدخول إلى النظام أو إنشاء حساب جديد.</p>
+    <a href="{% url 'account:login' %}" class="nav-btn">تسجيل الدخول</a>
+    <a href="{% url 'account:register' %}" class="nav-btn">إنشاء حساب</a>
+</div>
+{% endblock %}

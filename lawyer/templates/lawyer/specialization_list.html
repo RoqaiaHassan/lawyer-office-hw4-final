@@ -1,0 +1,87 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}إدارة التخصصات الفرعية{% endblock %}
+
+{% block content %}
+<div style="width: 90%; max-width: 1000px; margin: 40px auto; direction: rtl;">
+
+    <!-- Title Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: rgba(15, 23, 42, 0.9); padding: 22px 30px; border-radius: 14px; border: 1px solid rgba(197, 160, 89, 0.3);">
+        <div>
+            <h2 style="color: var(--light-gold); font-size: 1.8rem; margin: 0; font-weight: 800;">
+                <i class="fa-solid fa-tags" style="margin-left: 10px; color: var(--primary-gold);"></i> إدارة التخصصات الفرعية
+            </h2>
+            <p style="color: var(--text-muted); margin: 5px 0 0 0; font-size: 0.95rem;">
+                إضافة وإدارة التخصصات القانونية المتعددة المرتبطة بمجموعة المحامين
+            </p>
+        </div>
+        <a href="{% url 'lawyer:lawyer_list' %}" style="background: rgba(255,255,255,0.05); color: var(--text-light); border: 1px solid rgba(255,255,255,0.1); padding: 8px 18px; border-radius: 8px; text-decoration: none; font-size: 0.9rem;">
+            <i class="fa-solid fa-users"></i> العودة للمحامين
+        </a>
+    </div>
+
+    <!-- Form for adding a new specialization -->
+    <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 12px; padding: 25px; margin-bottom: 30px;">
+        <h3 style="color: var(--secondary-gold); font-size: 1.2rem; margin-top: 0; margin-bottom: 15px;">
+            <i class="fa-solid fa-plus-circle"></i> إضافة تخصص فرعي جديد
+        </h3>
+        <form method="post" style="display: flex; flex-direction: column; gap: 15px;">
+            {% csrf_token %}
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <input type="text" name="name" class="form-control" placeholder="اسم التخصص (مثال: قانون ملكية فكرية)" required style="background: #0f172a; border: 1px solid rgba(197,160,89,0.3); color: #fff; padding: 10px; border-radius: 8px; width: 100%;">
+                </div>
+                <div style="flex: 2; min-width: 300px;">
+                    <input type="text" name="description" class="form-control" placeholder="وصف مختصر للتخصص" style="background: #0f172a; border: 1px solid rgba(197,160,89,0.3); color: #fff; padding: 10px; border-radius: 8px; width: 100%;">
+                </div>
+                <div>
+                    <button type="submit" style="background: var(--primary-gold); color: #0f172a; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 800; cursor: pointer; height: 100%;">
+                        إضافة تخصص
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Table listing specializations -->
+    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 12px; overflow: hidden;">
+        <table style="width: 100%; border-collapse: collapse; text-align: center; color: var(--text-light);">
+            <thead>
+                <tr style="background: rgba(197, 160, 89, 0.15); border-bottom: 2px solid rgba(197, 160, 89, 0.3);">
+                    <th style="padding: 15px; color: var(--light-gold);">#</th>
+                    <th style="padding: 15px; color: var(--light-gold);">اسم التخصص الفرعي</th>
+                    <th style="padding: 15px; color: var(--light-gold);">الوصف</th>
+                    <th style="padding: 15px; color: var(--light-gold);">المحامون المرتبطون</th>
+                    <th style="padding: 15px; color: var(--light-gold);">إجراءات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for spec in specializations %}
+                <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                    <td style="padding: 15px;">{{ forloop.counter }}</td>
+                    <td style="padding: 15px; font-weight: 700; color: var(--secondary-gold);">{{ spec.name }}</td>
+                    <td style="padding: 15px; color: var(--text-muted);">{{ spec.description|default:"-" }}</td>
+                    <td style="padding: 15px;">
+                        <span style="background: rgba(40,167,69,0.2); color: #28a745; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem;">
+                            {{ spec.lawyers_count }} محامين
+                        </span>
+                    </td>
+                    <td style="padding: 15px;">
+                        <form method="post" action="{% url 'lawyer:specialization_delete' spec.pk %}" style="display: inline;" onsubmit="return confirm('هل أنت تأكد من حذف التخصص؟');">
+                            {% csrf_token %}
+                            <button type="submit" style="background: transparent; border: 1px solid #dc3545; color: #dc3545; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">
+                                <i class="fa-solid fa-trash"></i> حذف
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="padding: 30px; color: var(--text-muted);">لا توجد تخصصات فرعية مسجلة حالياً. استخدم النموذج أعلاه لإضافة تخصص جديد.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}مكتب رؤية للمحاماة{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'lawyer/css/base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="{% if user.is_authenticated %}{% url 'account:dashboard' %}{% else %}{% url 'account:login' %}{% endif %}"
+            class="navbar-brand">
+            <i class="fa-solid fa-scale-balanced"></i>
+            رؤية
+        </a>
+        <ul class="nav-links">
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'account:dashboard' %}">لوحة الحساب</a></li>
+            <li><a href="{% url 'lawyer:case_create' %}">إرسال قضية</a></li>
+            <li><a href="{% url 'lawyer:case_list' %}">قضاياي</a></li>
+            {% if user.is_staff or user.is_superuser %}
+            <li><a href="{% url 'lawyer:specialization_list' %}">التخصصات الفرعية</a></li>
+            <li><a href="{% url 'lawyer:lawyer_list' %}" style="color: var(--secondary-gold);">إدارة المحامين</a></li>
+            <li><a href="{% url 'lawyer:case_list' %}">إدارة القضايا</a></li>
+            {% endif %}
+            <li><a href="{% url 'account:logout' %}">تسجيل الخروج</a></li>
+            {% else %}
+            <li><a href="{% url 'account:login' %}">تسجيل الدخول</a></li>
+            <li><a href="{% url 'account:register' %}">إنشاء حساب</a></li>
+            {% endif %}
+        </ul>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <button id="back-btn" title="العودة"
+                style="background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text-light); padding:6px 10px; border-radius:8px; cursor:pointer; display:inline-flex;">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button id="theme-toggle" title="تبديل الوضع"
+                style="background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text-light); padding:6px 10px; border-radius:8px; cursor:pointer;">
+                <i id="theme-icon" class="fa-solid fa-moon"></i>
+            </button>
+            {% if user.is_authenticated %}
+            <a href="{% url 'lawyer:case_create' %}" class="nav-btn">إرسال قضية</a>
+            {% else %}
+            <a href="{% url 'account:login' %}" class="nav-btn">تسجيل الدخول</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main>
+        {% if messages %}
+        {% for message in messages %}
+        <div
+            style="max-width: 900px; margin: 20px auto 0; padding: 12px 16px; border-radius: 8px; background: rgba(197, 160, 89, 0.15); color: #fff;">
+            {{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>مكتب رؤية للمحاماة</h3>
+                <p>نظام إلكتروني لإدارة الحسابات والقضايا القانونية بشكل آمن ومقسم حسب صلاحيات المستخدم.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 مكتب رؤية للمحاماة والاستشارات القانونية. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+</body>
+
+<script>
+    // Theme toggle: persists in localStorage and updates body class
+    (function () {
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const backBtn = document.getElementById('back-btn');
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-theme');
+                if (themeIcon) { themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun'); }
+            } else {
+                document.body.classList.remove('light-theme');
+                if (themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+            }
+        }
+        // init
+        const saved = localStorage.getItem('site-theme') || 'dark';
+        applyTheme(saved);
+        // toggle handler
+        themeToggle && themeToggle.addEventListener('click', function () {
+            const current = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+            const next = current === 'light' ? 'dark' : 'light';
+            localStorage.setItem('site-theme', next);
+            applyTheme(next);
+        });
+
+        const fallbackUrl = "{% url 'account:login' %}";
+        backBtn && backBtn.addEventListener('click', function () {
+            if (history.length > 1) {
+                history.back();
+            } else if (document.referrer && document.referrer !== window.location.href) {
+                window.location.href = document.referrer;
+            } else {
+                window.location.href = fallbackUrl;
+            }
+        });
+    })();
+</script>
+
+</html>

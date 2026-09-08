@@ -1,0 +1,153 @@
+{% extends 'lawyer/base.html' %}
+{% load custom_filters %}
+{% block title %}إدارة المحامين{% endblock %}
+
+{% block content %}
+<div style="width: 90%; max-width: 1250px; margin: 40px auto; direction: rtl;">
+
+    <!-- عنوان الصفحة وزر الإضافة -->
+    <div
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: rgba(255, 255, 255, 0.03); padding: 20px 30px; border-radius: 12px; border: 1px solid rgba(197, 160, 89, 0.2); flex-wrap: wrap; gap: 15px;">
+        <div>
+            <h2 style="color: var(--light-gold); font-size: 1.8rem; margin: 0; font-weight: 700;">
+                <i class="fa-solid fa-users-gear" style="margin-left: 10px; color: var(--primary-gold);"></i> إدارة فريق
+                المحامين
+            </h2>
+            <p style="color: var(--text-muted); margin: 5px 0 0 0; font-size: 0.95rem;">
+                عرض وإدارة كافة بيانات فريق المحامين المسجلين بالنظام
+            </p>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <form method="get" style="display:flex; gap:8px;">
+                <input type="text" name="q" value="{{ query|default:'' }}" placeholder="ابحث باسم أو بريد أو تخصص"
+                    style="padding:8px 12px; border-radius:8px; border:1px solid #c5a059; background:#0f172a; color:#fff;">
+                <button type="submit"
+                    style="padding:8px 14px; border-radius:8px; border:none; background:#c5a059; color:#0f172a; font-weight:700;">بحث</button>
+            </form>
+            <a href="{% url 'lawyer:lawyer_add' %}"
+                style="background: linear-gradient(135deg, var(--primary-gold) 0%, #a37f3e 100%); color: var(--primary-dark); padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 0.95rem; box-shadow: 0 4px 10px rgba(197, 160, 89, 0.3); transition: 0.3s;">
+                <i class="fa-solid fa-user-plus" style="margin-left: 5px;"></i> إضافة محامي جديد
+            </a>
+        </div>
+        {% if query %}
+        <div style="width: 100%; margin-top: 10px; color: var(--text-muted); font-size: 0.95rem;">
+            نتائج البحث عن: <strong style="color: var(--light-gold);">{{ query|legal_simplify }}</strong>
+            <span
+                style="background: rgba(197,160,89,0.18); color: #c5a059; padding: 4px 10px; border-radius: 999px; margin-inline-start: 10px;">
+                {{ query|to_hashtag }}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- جدول عرض البيانات بتصميم متناسق مع الموقع -->
+    <div
+        style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: center; color: var(--text-light);">
+                <thead>
+                    <tr style="background: rgba(197, 160, 89, 0.15); border-bottom: 2px solid rgba(197, 160, 89, 0.3);">
+                        <th style="padding: 15px; color: var(--light-gold); font-weight: 700;">#</th>
+                        <th style="padding: 15px; color: var(--light-gold); font-weight: 700;">اسم المحامي</th>
+                        <th style="padding: 15px; color: var(--light-gold); font-weight: 700;">التخصصات</th>
+                        <th style="padding: 15px; color: var(--light-gold); font-weight: 700;">البطاقة المكتبية</th>
+                        <th style="padding: 15px; color: var(--light-gold); font-weight: 700;">الخبرة والجوال</th>
+                        <th style="padding: 15px; color: var(--light-gold); font-weight: 700;">الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lawyer in lawyers %}
+                    <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.2s;"
+                        onmouseover="this.style.background='rgba(255,255,255,0.02)'"
+                        onmouseout="this.style.background='transparent'">
+                        <td style="padding: 15px; font-weight: 600;">{{ forloop.counter }}</td>
+                        <td style="padding: 15px; font-weight: 700; color: var(--secondary-gold);">
+                            <div
+                                style="display:flex; align-items:center; gap:12px; justify-content:flex-start; text-align:right;">
+                                {% if lawyer.image %}
+                                <img src="{{ lawyer.image.url }}" alt="{{ lawyer.name }}"
+                                    style="width:52px; height:52px; border-radius:50%; object-fit:cover; border:2px solid rgba(197,160,89,0.5); box-shadow:0 0 0 1px rgba(255,255,255,0.08);">
+                                {% else %}
+                                <div
+                                    style="width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3b82f6,#16a34a); color:#fff; font-weight:700; font-size:1.05rem; border:2px solid rgba(197,160,89,0.5); box-shadow:0 0 0 1px rgba(255,255,255,0.08);">
+                                    {{ lawyer.name|slice:":1"|upper }}
+                                </div>
+                                {% endif %}
+                                <div style="display:flex; flex-direction:column; align-items:flex-start; min-width:0;">
+                                    <a href="{% url 'lawyer:detail' lawyer.id %}"
+                                        style="color: var(--secondary-gold); text-decoration: none; font-size:0.98rem; line-height:1.5;">
+                                        {{ lawyer.name }}
+                                    </a>
+                                    <div
+                                        style="font-size:0.76rem; color:#a0aec0; font-weight:normal; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; direction:ltr; text-align:left;">
+                                        {{ lawyer.email }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding: 15px; color: var(--text-muted);">
+                            <div style="font-weight: 600; color: #fff; margin-bottom: 4px;">{{ lawyer.specialization }}
+                            </div>
+                            {% for spec in lawyer.specializations.all %}
+                            <span
+                                style="background: rgba(183,148,244,0.2); color: #b794f4; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; display: inline-block; margin: 2px;">
+                                {{ spec.name }}
+                            </span>
+                            {% empty %}
+                            <span style="font-size: 0.75rem; color: #718096;">-</span>
+                            {% endfor %}
+                        </td>
+                        <td style="padding: 15px;">
+                            {% if lawyer.office_card %}
+                            <div
+                                style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:38px; padding:6px 12px; border-radius:12px; border:1px solid rgba(91, 146, 255, 0.6); background:linear-gradient(135deg, rgba(37,99,235,0.2), rgba(14,165,233,0.2)); box-shadow:inset 0 0 0 1px rgba(255,255,255,0.04); color:#dbeafe; font-size:0.8rem; font-weight:600;">
+                                <i class="fa-solid fa-id-card" style="color: #7dd3fc;"></i>
+                                <span>{{ lawyer.office_card.card_number }}</span>
+                                <span style="color: rgba(191,219,254,0.8);">-</span>
+                                <span>{{ lawyer.office_card.office_room }}</span>
+                            </div>
+                            {% else %}
+                            <span style="color: #718096; font-size: 0.8rem;">غير محددة</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 15px;">
+                            <span
+                                style="background: rgba(40, 167, 69, 0.2); color: #28a745; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                {{ lawyer.experience_years }} سنوات
+                            </span>
+                            <div style="font-size: 0.8rem; margin-top: 4px;" dir="ltr">{{ lawyer.phone }}</div>
+                        </td>
+                        <td style="padding: 15px;">
+                            <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;">
+                                <a href="{% url 'lawyer:office_card_edit' lawyer.pk %}"
+                                    style="background: transparent; border: 1px solid #b794f4; color: #b794f4; padding: 4px 8px; border-radius: 6px; text-decoration: none; font-size: 0.8rem;"
+                                    title="تعديل البطاقة المكتبية">
+                                    <i class="fa-solid fa-id-badge"></i> بطاقة
+                                </a>
+                                <a href="{% url 'lawyer:lawyer_edit' lawyer.pk %}"
+                                    style="background: transparent; border: 1px solid var(--secondary-gold); color: var(--secondary-gold); padding: 4px 8px; border-radius: 6px; text-decoration: none; font-size: 0.8rem;">
+                                    <i class="fa-solid fa-pen-to-square"></i> تعديل
+                                </a>
+                                <a href="{% url 'lawyer:lawyer_delete' lawyer.pk %}"
+                                    style="background: transparent; border: 1px solid #dc3545; color: #dc3545; padding: 4px 8px; border-radius: 6px; text-decoration: none; font-size: 0.8rem;">
+                                    <i class="fa-solid fa-trash"></i> حذف
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6"
+                            style="padding: 40px; text-align: center; color: var(--text-muted); font-size: 1.1rem;">
+                            <i class="fa-solid fa-folder-open"
+                                style="display: block; font-size: 2rem; margin-bottom: 10px; color: rgba(197, 160, 89, 0.4);"></i>
+                            لا يوجد محامين مسجلين حالياً.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

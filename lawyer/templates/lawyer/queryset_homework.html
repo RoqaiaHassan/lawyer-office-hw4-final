@@ -1,0 +1,261 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}دوال QuerySet السبع - تكليف هندسة البرمجيات{% endblock %}
+
+{% block content %}
+<div style="width: 92%; max-width: 1200px; margin: 40px auto; direction: rtl;">
+
+    <!-- الهيدر الترحيبي والتوضيحي للتكليف -->
+    <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)); border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 16px; padding: 28px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div>
+                <span style="background: rgba(197, 160, 89, 0.2); color: var(--primary-gold); font-size: 0.85rem; padding: 5px 14px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(197, 160, 89, 0.3);">
+                    <i class="fa-solid fa-graduation-cap"></i> تكليف هندسة البرمجيات - QuerySet Methods
+                </span>
+                <h1 style="color: var(--light-gold); font-size: 2rem; margin: 12px 0 6px 0; font-weight: 800;">
+                    <i class="fa-solid fa-code" style="color: var(--primary-gold); margin-left: 10px;"></i> تطبيق دوال QuerySet السبع المعتمدة
+                </h1>
+                <p style="color: var(--text-muted); font-size: 1rem; margin: 0; line-height: 1.6;">
+                    تم تجميع كافة الاستعلامات وتطبيقات QuerySet المعتمدة في دالة واحدة (<code style="color:#28a745; background:rgba(0,0,0,0.3); padding:2px 8px; border-radius:4px;">homework_queryset_demo</code>) في ملف <code style="color:var(--primary-gold); background:rgba(0,0,0,0.3); padding:2px 8px; border-radius:4px;">lawyer/views.py</code> مع توثيق عربي كامل لتسهيل لقطة الشاشة (Screenshot) للدكتورة.
+                </p>
+            </div>
+            <a href="{% url 'lawyer:forms_demo' %}" style="background: rgba(197,160,89,0.15); color: var(--light-gold); border: 1px solid var(--primary-gold); padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; transition: 0.3s;">
+                انتقل لطرق الفورم الثلاث <i class="fa-solid fa-arrow-left" style="margin-right: 6px;"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- بطاقات عرض دوال QuerySet ونتائجها التشغيلية الحية -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 25px;">
+
+        <!-- 1. filter() -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.25); border-radius: 14px; padding: 22px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                <span style="color: var(--secondary-gold); font-weight: 800; font-size: 1.1rem;">1. دالة <code style="color:#28a745;">filter()</code></span>
+                <span style="background: rgba(40,167,69,0.2); color: #28a745; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 700;">تصفية النتائج</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
+                <strong>الهدف:</strong> تصفية المحامين الذيم تزيد سنوات خبرتهم عن سنتين (<code style="color:#ffc107;">experience_years__gt=2</code>).
+            </p>
+            <div style="background: #090d16; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #64b5f6; margin-bottom: 12px; dir: ltr; text-align: left;">
+                Lawyer.objects.filter(experience_years__gt=2)
+            </div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">
+                <strong>النتيجة الحية ({{ qs_filter.count }} عناصر):</strong>
+                <ul style="margin: 8px 0 0 20px; padding: 0; color: #a0aec0; font-size: 0.85rem;">
+                    {% for lawyer in qs_filter %}
+                    <li>{{ lawyer.name }} (خبرة: {{ lawyer.experience_years }} سنوات)</li>
+                    {% empty %}
+                    <li style="color:#e53e3e;">لا يوجد عناصر طابقت الشرط</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2. exclude() -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.25); border-radius: 14px; padding: 22px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                <span style="color: var(--secondary-gold); font-weight: 800; font-size: 1.1rem;">2. دالة <code style="color:#e53e3e;">exclude()</code></span>
+                <span style="background: rgba(229,62,62,0.2); color: #e53e3e; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 700;">استبعاد العناصر</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
+                <strong>الهدف:</strong> استبعاد المحامين الذين لا يملكون تخصصاً مدخلاً.
+            </p>
+            <div style="background: #090d16; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #64b5f6; margin-bottom: 12px; dir: ltr; text-align: left;">
+                Lawyer.objects.exclude(specialization="")
+            </div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">
+                <strong>النتيجة الحية ({{ qs_exclude.count }} عناصر):</strong>
+                <ul style="margin: 8px 0 0 20px; padding: 0; color: #a0aec0; font-size: 0.85rem;">
+                    {% for lawyer in qs_exclude %}
+                    <li>{{ lawyer.name }} - تخصص: {{ lawyer.specialization }}</li>
+                    {% empty %}
+                    <li>جميع العناصر مستبعدة</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- 3. order_by() -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.25); border-radius: 14px; padding: 22px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                <span style="color: var(--secondary-gold); font-weight: 800; font-size: 1.1rem;">3. دالة <code style="color:#3182ce;">order_by()</code></span>
+                <span style="background: rgba(49,130,206,0.2); color: #63b3ed; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 700;">ترتيب النتائج</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
+                <strong>الهدف:</strong> ترتيب السجلات تنازلياً حسب سنوات الخبرة (من الأعلى إلى الأقل).
+            </p>
+            <div style="background: #090d16; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #64b5f6; margin-bottom: 12px; dir: ltr; text-align: left;">
+                Lawyer.objects.order_by('-experience_years')
+            </div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">
+                <strong>المرتبون تنازلياً:</strong>
+                <ol style="margin: 8px 0 0 20px; padding: 0; color: #a0aec0; font-size: 0.85rem;">
+                    {% for lawyer in qs_order_by %}
+                    <li>{{ lawyer.name }} ({{ lawyer.experience_years }} سنوات)</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+
+        <!-- 4. select_related() - One-to-One & ForeignKey -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.25); border-radius: 14px; padding: 22px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                <span style="color: var(--secondary-gold); font-weight: 800; font-size: 1.1rem;">4. دالة <code style="color:#d69e2e;">select_related()</code></span>
+                <span style="background: rgba(214,158,46,0.2); color: #d69e2e; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 700;">1-to-1 JOIN Optimization</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
+                <strong>الهدف:</strong> ربط المحامي ببطاقته المكتبية (One-to-One) وحسابه باستعلام واحد.
+            </p>
+            <div style="background: #090d16; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #64b5f6; margin-bottom: 12px; dir: ltr; text-align: left;">
+                Lawyer.objects.select_related('office_card', 'user')
+            </div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">
+                <strong>بيانات العلاقات (1-to-1):</strong>
+                <ul style="margin: 8px 0 0 20px; padding: 0; color: #a0aec0; font-size: 0.85rem;">
+                    {% for lawyer in qs_select_related %}
+                    <li>{{ lawyer.name }} - بطاقة: {{ lawyer.office_card.card_number|default:"غير صادرة" }} (قاعة: {{ lawyer.office_card.office_room|default:"-" }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- 5. prefetch_related() - Many-to-Many -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.25); border-radius: 14px; padding: 22px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                <span style="color: var(--secondary-gold); font-weight: 800; font-size: 1.1rem;">5. دالة <code style="color:#9f7aea;">prefetch_related()</code></span>
+                <span style="background: rgba(159,122,234,0.2); color: #b794f4; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 700;">Many-to-Many Optimization</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
+                <strong>الهدف:</strong> تحسين استعلام علاقة (كثير إلى كثير) مع جدول التخصصات الفرعية.
+            </p>
+            <div style="background: #090d16; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #64b5f6; margin-bottom: 12px; dir: ltr; text-align: left;">
+                Lawyer.objects.prefetch_related('specializations')
+            </div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">
+                <strong>التخصصات الفرعية المرتبطة (Many-to-Many):</strong>
+                <ul style="margin: 8px 0 0 20px; padding: 0; color: #a0aec0; font-size: 0.85rem;">
+                    {% for lawyer in qs_prefetch_related %}
+                    <li>
+                        {{ lawyer.name }}:
+                        {% for spec in lawyer.specializations.all %}
+                        <span style="background: rgba(197,160,89,0.2); color: var(--primary-gold); padding: 1px 6px; border-radius: 4px; font-size: 0.75rem;">{{ spec.name }}</span>
+                        {% empty %}
+                        <span style="color:#718096;">لا يوجد تخصصات فرعية</span>
+                        {% endfor %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- 6. annotate() -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.25); border-radius: 14px; padding: 22px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                <span style="color: var(--secondary-gold); font-weight: 800; font-size: 1.1rem;">6. دالة <code style="color:#ed64a6;">annotate()</code></span>
+                <span style="background: rgba(237,100,166,0.2); color: #f687b3; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 700;">إضافة حقل تجميعي</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
+                <strong>الهدف:</strong> حساب عدد القضايا المسندة لكل محام ديناميكياً باستخدام <code style="color:#ed64a6;">Count</code>.
+            </p>
+            <div style="background: #090d16; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #64b5f6; margin-bottom: 12px; dir: ltr; text-align: left;">
+                Lawyer.objects.annotate(total_cases=Count('caserequest'))
+            </div>
+            <div style="color: var(--text-light); font-size: 0.9rem;">
+                <strong>عدد القضايا لكل محامٍ:</strong>
+                <ul style="margin: 8px 0 0 20px; padding: 0; color: #a0aec0; font-size: 0.85rem;">
+                    {% for lawyer in qs_annotate %}
+                    <li>{{ lawyer.name }}: <strong style="color: var(--primary-gold);">{{ lawyer.total_cases }} قضايا</strong></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- 7. aggregate() -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.25); border-radius: 14px; padding: 22px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                <span style="color: var(--secondary-gold); font-weight: 800; font-size: 1.1rem;">7. دالة <code style="color:#38b2ac;">aggregate()</code></span>
+                <span style="background: rgba(56,178,172,0.2); color: #4fd1c5; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 700;">حساب إحصائيات إجمالية</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
+                <strong>الهدف:</strong> حساب المتوسط الإجمالي للخبرة، وأعلى وأدنى خبرة.
+            </p>
+            <div style="background: #090d16; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #64b5f6; margin-bottom: 12px; dir: ltr; text-align: left;">
+                Lawyer.objects.aggregate(Avg('experience_years'), Max(...))
+            </div>
+            <div style="color: var(--text-light); font-size: 0.9rem; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                <div>متوسط الخبرة: <strong style="color: var(--primary-gold);">{{ qs_aggregate.avg_experience|floatformat:1 }} سنوات</strong></div>
+                <div>أعلى سنوات خبرة: <strong style="color: #28a745;">{{ qs_aggregate.max_experience }} سنوات</strong></div>
+                <div>أقل سنوات خبرة: <strong style="color: #63b3ed;">{{ qs_aggregate.min_experience }} سنوات</strong></div>
+            </div>
+        </div>
+
+        <!-- 8. values() & count() & exists() -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(197, 160, 89, 0.25); border-radius: 14px; padding: 22px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+                <span style="color: var(--secondary-gold); font-weight: 800; font-size: 1.1rem;">8, 9, 10. دوال <code style="color:#ecc94b;">values() / count() / exists()</code></span>
+                <span style="background: rgba(236,201,75,0.2); color: #ecc94b; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 700;">دوال سريعة</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">
+                <strong>الهدف:</strong> استخراج القواميس، والعد الفعلي، والتحقق السريع من الوجود.
+            </p>
+            <div style="background: #090d16; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 0.8rem; color: #64b5f6; margin-bottom: 12px; dir: ltr; text-align: left;">
+                values('name', 'specialization') | count() | exists()
+            </div>
+            <div style="color: var(--text-light); font-size: 0.85rem; line-height: 1.7;">
+                <div>عدد المحامين الإجمالي (<code style="color:#ecc94b;">count</code>): <strong style="color:var(--primary-gold);">{{ total_lawyers_count }}</strong></div>
+                <div>هل يوجد محامون بالموقع؟ (<code style="color:#ecc94b;">exists</code>): <strong style="color:#28a745;">{% if has_lawyers %}نعم (True){% else %}لا (False){% endif %}</strong></div>
+                <div style="margin-top: 6px;">عينة من القواميس (<code style="color:#ecc94b;">values</code>):</div>
+                <ul style="margin: 4px 0 0 15px; padding: 0; color: #a0aec0;">
+                    {% for item in qs_values|slice:":3" %}
+                    <li>dict: {{ item.name }} | {{ item.specialization }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- كود المصدر البرمجي لتصويره للدكتورة -->
+    <div style="margin-top: 40px; background: #0f172a; border: 1px solid rgba(197,160,89,0.3); border-radius: 14px; padding: 25px;">
+        <h3 style="color: var(--light-gold); margin-top: 0;">
+            <i class="fa-solid fa-camera" style="margin-left: 8px; color: var(--primary-gold);"></i> كود Python للدوال السبع (جاهز لـ Screenshot)
+        </h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">هذا هو الكود البرمجي المكتوب في <code style="color: var(--primary-gold);">lawyer/views.py</code> تحت اسم <code style="color:#28a745;">homework_queryset_demo</code>:</p>
+        <pre style="background: #090d16; padding: 20px; border-radius: 10px; color: #e2e8f0; font-family: 'Consolas', monospace; font-size: 0.9rem; line-height: 1.6; overflow-x: auto; dir: ltr; text-align: left; border: 1px solid rgba(255,255,255,0.05);">
+def homework_queryset_demo(request):
+    # 1. filter() - تصفية المحامين ذوي الخبرة أكثر من سنتين
+    qs_filter = Lawyer.objects.filter(experience_years__gt=2)
+
+    # 2. exclude() - استبعاد المحامين بدون تخصص
+    qs_exclude = Lawyer.objects.exclude(specialization="")
+
+    # 3. order_by() - ترتيب المحامين تنازلياً حسب الخبرة
+    qs_order_by = Lawyer.objects.order_by('-experience_years')
+
+    # 4. select_related() - تحسين استعلام علاقة (One-to-One)
+    qs_select_related = Lawyer.objects.select_related('office_card', 'user').all()
+
+    # 5. prefetch_related() - تحسين استعلام علاقة (Many-to-Many)
+    qs_prefetch_related = Lawyer.objects.prefetch_related('specializations').all()
+
+    # 6. annotate() - حساب عدد القضايا لكل محامٍ
+    qs_annotate = Lawyer.objects.annotate(total_cases=Count('caserequest'))
+
+    # 7. aggregate() - حساب متوسط وأعلى وأدنى سنوات الخبرة
+    qs_aggregate = Lawyer.objects.aggregate(
+        avg_experience=Avg('experience_years'),
+        max_experience=Max('experience_years'),
+        min_experience=Min('experience_years')
+    )
+
+    # 8. values() - استخراج حقول محددة فقط
+    qs_values = Lawyer.objects.values('id', 'name', 'specialization')
+
+    # 9. count() & 10. exists()
+    total_lawyers_count = Lawyer.objects.count()
+    has_lawyers = Lawyer.objects.exists()
+        </pre>
+    </div>
+
+</div>
+{% endblock %}

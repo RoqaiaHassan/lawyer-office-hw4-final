@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل المحامي | مكتب رؤية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-dark: #1e293b;
+            --primary-gold: #c5a059;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: var(--card-dark);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .card-header {
+            background-color: #0b1120;
+            padding: 2.5rem 1.5rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .avatar-box {
+            width: 90px;
+            height: 90px;
+            background-color: var(--bg-dark);
+            border: 3px solid var(--primary-gold);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1rem;
+            color: var(--primary-gold);
+            font-size: 2.5rem;
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.2);
+        }
+
+        .card-header h1 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .lawyer-badge {
+            display: inline-block;
+            background: rgba(197, 160, 89, 0.15);
+            color: var(--primary-gold);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        /* شبكة الإحصائيات (القضايا والخبرة) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: var(--bg-dark);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-item h4 {
+            color: var(--primary-gold);
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        /* تفاصيل البيانات */
+        .info-list {
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-label i {
+            color: var(--primary-gold);
+        }
+
+        .info-value {
+            font-weight: 700;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* زر العودة */
+        .btn-back {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--primary-gold);
+            color: var(--bg-dark);
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-back:hover {
+            background-color: #d8b26e;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="profile-card">
+        <!-- الهيدر -->
+        <div class="card-header">
+            <div class="avatar-box" style="overflow:hidden; background: #0b1120;">
+                {% if lawyer.image %}
+                <img src="{{ lawyer.image.url }}" alt="{{ lawyer.name }}"
+                    style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+                {% else %}
+                <div style="width:100%; height:100%; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3b82f6,#16a34a); color:#fff; font-weight:700; font-size:1.8rem;">
+                    {{ lawyer.name|slice:":1"|upper }}
+                </div>
+                {% endif %}
+            </div>
+            <h1>{{ lawyer.name }}</h1>
+            <span class="lawyer-badge">معرّف المحامي: #{{ lawyer.id }}</span>
+        </div>
+
+        <!-- محتوى التفاصيل والإحصائيات -->
+        <div class="card-body">
+
+            <!-- الإحصائيات -->
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h4>{{ lawyer.caserequest_set.count|default:"0" }}</h4>
+                    <p>قضايا منسوبة</p>
+                </div>
+                <div class="stat-item">
+                    <h4>100%</h4>
+                    <p>التزام بالعمل</p>
+                </div>
+                <div class="stat-item">
+                    <h4>{{ lawyer.experience_years }} سنوات</h4>
+                    <p>خبرة عمل</p>
+                </div>
+            </div>
+
+            <!-- قائمة التفاصيل والمعلومات -->
+            <div class="info-list">
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-briefcase"></i> التخصص الرئيسي:</span>
+                    <span class="info-value">{{ lawyer.specialization }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-tags"></i> التخصصات الفرعية:</span>
+                    <span class="info-value">
+                        {% for spec in lawyer.specializations.all %}
+                        <span
+                            style="background: rgba(183,148,244,0.2); color: #b794f4; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; display: inline-block; margin-inline-start: 4px;">{{
+                            spec.name }}</span>
+                        {% empty %}
+                        <span style="color: var(--text-muted); font-weight: normal;">غير محددة</span>
+                        {% endfor %}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-id-card"></i> البطاقة المكتبية:</span>
+                    <span class="info-value" style="color: var(--primary-gold);">
+                        {% if lawyer.office_card %}
+                        {{ lawyer.office_card.card_number }} ({{ lawyer.office_card.office_room }})
+                        {% else %}
+                        <span style="color: var(--text-muted); font-weight: normal;">غير محددة</span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-phone"></i> رقم الجوال:</span>
+                    <span class="info-value" dir="ltr">{{ lawyer.phone }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fa-solid fa-envelope"></i> البريد الإلكتروني:</span>
+                    <span class="info-value" dir="ltr">{{ lawyer.email }}</span>
+                </div>
+            </div>
+
+            <!-- زر العودة -->
+            <a href="{% url 'lawyer:lawyer_list' %}" class="btn-back">
+                <i class="fa-solid fa-arrow-right"></i>
+                <span>العودة لقائمة المحامين</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+
+</html>

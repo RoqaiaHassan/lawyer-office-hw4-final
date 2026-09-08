@@ -1,0 +1,232 @@
+{% extends 'lawyer/base.html' %}
+
+{% block title %}تواصل معنا - مكتب رؤية للمحاماة{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        padding: 6rem 5% 3rem;
+        background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.95)),
+            url('https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1950&q=80') center/cover;
+        text-align: center;
+        border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    }
+
+    .page-header h1 {
+        font-size: 3rem;
+        color: var(--light-gold);
+        margin-bottom: 1rem;
+    }
+
+    .page-header p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .contact-section {
+        padding: 5rem 5%;
+        background: var(--primary-dark);
+    }
+
+    .contact-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 3rem;
+    }
+
+    /* Contact Info Cards */
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .info-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        padding: 2rem;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    .info-card:hover {
+        transform: translateX(-10px);
+        background: rgba(255, 255, 255, 0.04);
+        border-color: var(--primary-gold);
+    }
+
+    .info-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(197, 160, 89, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .info-icon i {
+        font-size: 1.5rem;
+        color: var(--primary-gold);
+    }
+
+    .info-content h3 {
+        color: var(--secondary-gold);
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .info-content p {
+        color: var(--text-light);
+        font-size: 1rem;
+    }
+
+    /* Contact Form */
+    .contact-form-container {
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(197, 160, 89, 0.2);
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .contact-form h2 {
+        color: var(--light-gold);
+        margin-bottom: 2rem;
+        font-size: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        color: var(--text-light);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(197, 160, 89, 0.3);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-gold);
+        background: rgba(255, 255, 255, 0.05);
+        box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 150px;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, var(--primary-gold) 0%, #a37f3e 100%);
+        color: var(--primary-dark);
+        padding: 15px 30px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 800;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
+    }
+
+    @media (max-width: 992px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <h1>تواصل معنا</h1>
+    <p>نحن هنا للرد على استفساراتك وتقديم الدعم القانوني الذي تحتاجه. لا تتردد في الاتصال بنا.</p>
+</header>
+
+<section class="contact-section">
+    <div class="contact-grid">
+        <!-- Contact Information -->
+        <div class="contact-info">
+            <div class="info-card">
+                <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <div class="info-content">
+                    <h3>العنوان</h3>
+                    <p> إب - شارع العدين - مقابل مجمع إب التجاري <br> اليمن</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                <div class="info-content">
+                    <h3>رقم الهاتف</h3>
+                    <p dir="ltr" style="text-align: right;">+967 772342211</p>
+                    <p dir="ltr" style="text-align: right;">+967 727272727</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div class="info-content">
+                    <h3>البريد الإلكتروني</h3>
+                    <p>info@roya-law.com</p>
+                    <p>support@roya-law.com</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="info-content">
+                    <h3>ساعات العمل</h3>
+                    <p>الأحد - الخميس: 9:00 صباحاً - 5:00 مساءً</p>
+                    <p>الجمعة والسبت: مغلق</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-container">
+            <form class="contact-form" method="post">
+                <h2>أرسل لنا رسالة أو احجز استشارة</h2>
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                    <div style="color:#ff8a8a; font-size:0.9rem; margin-top:4px;">{{ field.errors|striptags }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn-submit">إرسال الطلب</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

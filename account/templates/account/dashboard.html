@@ -1,0 +1,25 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}لوحة الحساب{% endblock %}
+{% block content %}
+<div style="padding: 30px;">
+    <h2 style="color:#c5a059;">مرحباً {{ user.username }}</h2>
+    <p>هذا هو حسابك الشخصي في نظام المكتب القانوني.</p>
+    {% if is_admin %}
+    <p style="color:#4ade80;">أنت مدير النظام، ويمكنك إدارة المحامين والقضايا والتخصصات والرد على الاستفسارات.</p>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+        <a href="{% url 'lawyer:lawyer_list' %}" class="nav-btn">إدارة المحامين</a>
+        <a href="{% url 'lawyer:specialization_list' %}" class="nav-btn">إدارة التخصصات الفرعية</a>
+        <a href="{% url 'lawyer:case_list' %}" class="nav-btn">إدارة القضايا</a>
+        <a href="{% url 'lawyer:contact_messages' %}" class="nav-btn">الاستفسارات والردود</a>
+    </div>
+    {% else %}
+    <p>يمكنك الاطلاع على المحامين وإرسال استفسار أو قضية جديدة.</p>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+        <a href="{% url 'lawyer:case_create' %}" class="nav-btn">إرسال قضية جديدة</a>
+        <a href="{% url 'lawyer:case_list' %}" class="nav-btn">عرض قضاياي</a>
+        <a href="{% url 'lawyer:contact' %}" class="nav-btn">إرسال استفسار</a>
+    </div>
+    {% endif %}
+    <p style="margin-top: 16px;"><a href="{% url 'account:logout' %}" style="color:#c5a059;">تسجيل الخروج</a></p>
+</div>
+{% endblock %}

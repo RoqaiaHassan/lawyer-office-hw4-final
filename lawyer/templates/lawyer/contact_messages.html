@@ -1,0 +1,27 @@
+{% extends 'lawyer/base.html' %}
+{% load custom_filters %}
+{% block title %}الاستفسارات والرسائل{% endblock %}
+{% block content %}
+<div style="padding: 30px; max-width: 1100px; margin: 0 auto;">
+    <h2 style="color:#c5a059; margin-bottom:20px;">الاستفسارات والرسائل</h2>
+    {% for message, form in reply_forms %}
+    <div
+        style="background: rgba(255,255,255,0.04); border:1px solid #c5a059; border-radius: 14px; padding: 20px; margin-bottom: 16px;">
+        <p style="margin:6px 0; color:#dfe7f1;"><strong>الاسم:</strong> {{ message.name }}</p>
+        <p style="margin:6px 0; color:#dfe7f1;"><strong>الجوال:</strong> {{ message.phone }}</p>
+        <p style="margin:6px 0; color:#dfe7f1;"><strong>الموضوع:</strong> {{ message.subject }}</p>
+        <p style="margin:6px 0; color:#dfe7f1;"><strong>الرسالة:</strong> {{ message.message|legal_simplify }}</p>
+        <p style="margin:6px 0; color:#dfe7f1;"><strong>الحالة:</strong> {% if message.is_replied %}تم الرد{% else %}في
+            انتظار الرد{% endif %}</p>
+        <form method="post" action="{% url 'lawyer:reply_message' message.pk %}" style="margin-top:12px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="nav-btn" style="border:none; cursor:pointer;">حفظ الرد</button>
+        </form>
+    </div>
+    {% empty %}
+    <div style="padding:24px; text-align:center; border:1px dashed #c5a059; border-radius:12px; color:#dfe7f1;">لا توجد
+        رسائل حالياً.</div>
+    {% endfor %}
+</div>
+{% endblock %}

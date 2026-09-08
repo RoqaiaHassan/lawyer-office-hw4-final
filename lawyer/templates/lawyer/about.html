@@ -1,0 +1,170 @@
+{% load custom_filters %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 1. الفلاتر 1 و 2: upper & lower -->
+    <title>{{ "عن المكتب والأقسام"|upper }} | {{ "Vision Law Office"|lower }}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'lawyer/css/about.css' %}">
+    
+</head>
+
+<body>
+
+    <!-- 1. تعريف المتغيرات المحلية -->
+    {% with app_ver="2.1.0" total_cases=95 active_cases=15 office_code="roya_law_office" %}
+
+    <header>
+        <a href="{% url 'lawyer:home' %}" class="logo">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <!-- الفلتر 3: title -->
+            <span>{{ office_name|default:"مكتب رؤية"|title }}</span>
+        </a>
+    </header>
+
+    <section class="about-hero">
+        <h1>لوحة الخدمات وعن المكتب</h1>
+        <p>إدارة العمليات القانونية بكل كفاءة وسرعة - إصدار {{ app_ver }}</p>
+    </section>
+
+    <div class="main-container">
+
+        <!-- 3. أساسيات البرمجة: تطبيق قواعد الشروط بجميع أنواعها (if, elif, else) -->
+        <div class="status-box">
+            <h3><i class="fa-solid fa-bell"></i> حالة المكتب والنشاط الحالي:</h3>
+
+            {% if is_open %}
+            <p style="color: #16a34a; font-weight: bold;">
+                <i class="fa-solid fa-door-open"></i> المكتب مفتوح الآن واستقبال الطلبات مُتاح.
+            </p>
+            {% elif is_busy %}
+            <p style="color: #d97706; font-weight: bold;">
+                <i class="fa-solid fa-clock"></i> المكتب في فترة ازدحام للجلسات حالياً.
+            </p>
+            {% else %}
+            <p style="color: #dc2626; font-weight: bold;">
+                <i class="fa-solid fa-door-closed"></i> المكتب مغلق حالياً، يسعدنا استقبالكم في أوقات العمل الرسمية.
+            </p>
+            {% endif %}
+        </div>
+
+        <!-- 2. استعراض 7 فلاتر إضافية للتحويل -->
+        <div class="assignment-box">
+            <h3><i class="fa-solid fa-code"></i> مخرجات فلاتر التحويل والتكليف البرمجي</h3>
+            <div class="filters-grid">
+                <div class="filter-item">
+                    <!-- الفلتر 4: length -->
+                    <p>عدد المحامين: <span>{{ lawyers_list|length }}</span></p>
+                </div>
+                <div class="filter-item">
+                    <!-- الفلتر 5: date -->
+                    <p>التاريخ الحالي: <span>{{ today_date|date:"Y-m-d" }}</span></p>
+                </div>
+                <div class="filter-item">
+                    <!-- الفلتر 6: capfirst -->
+                    <p>رمز المكتب: <span>{{ office_code|capfirst }}</span></p>
+                </div>
+                <div class="filter-item">
+                    <!-- الفلتر 7: add -->
+                    <p>إجمالي القضايا: <span>{{ total_cases|add:active_cases }}</span></p>
+                </div>
+                <div class="filter-item">
+                    <!-- الفلتر 8: default -->
+                    <p>ملاحظة هامة: <span>{{ custom_note|default:"لا توجد تعميمات" }}</span></p>
+                </div>
+                <div class="filter-item">
+                    <!-- الفلتر 9: truncatewords -->
+                    <p>عن النظام: <span>{{ "نظام متكامل لإدارة القضايا والاستشارات القانونية بمرونة"|truncatewords:3
+                            }}</span></p>
+                </div>
+                <div class="filter-item">
+                    <!-- الفلتر 10: slice -->
+                    <p>اختصار الاسم: <span>{{ "Lawyer System"|slice:":6" }}</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- الأزرار والخدمات القانونية -->
+        <h2 class="section-title">أقسام النظام الرئيسية</h2>
+
+        <div class="actions-grid">
+
+            <!-- 1. كرت إدارة المحامين -->
+            <div class="action-card">
+                <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=600&q=80"
+                    class="card-img" alt="إدارة المحامين">
+                <div class="card-body">
+                    <div>
+                        <h3>إدارة المحامين</h3>
+                        <p>تسجيل المحامين الجدد في الكادر وتحديد التخصصات والبيانات.</p>
+                    </div>
+                    <a href="{% url 'lawyer:lawyer_list' %}" class="btn-card"><i class="fa-solid fa-user-plus"></i> إدارة المحامين</a>
+                </div>
+            </div>
+
+            <!-- 2. كرت إدارة القضايا (تم تطبيق الفلتر المخصص legal_simplify هنا) -->
+            <div class="action-card">
+                <img src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=600&q=80"
+                    class="card-img" alt="إدارة القضايا">
+                <div class="card-body">
+                    <div>
+                        <h3>إدارة القضايا</h3>
+                        <!-- تطبيق الفلتر legal_simplify على مصطلحات: المدعي، الجلسة، والفسخ -->
+                        <p>{{ "متابعة ملفات المدعي وحساب أتعاب الجلسة وقضايا الفسخ أولاً بأول."|legal_simplify }}</p>
+                    </div>
+                    <a href="#" class="btn-card"><i class="fa-solid fa-gavel"></i> إدارة القضايا</a>
+                </div>
+            </div>
+
+            <!-- 3. كرت استعراض تفاصيل محامي (الانتقال لصفحة detail) -->
+            <div class="action-card">
+                <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80"
+                    class="card-img" alt="تفاصيل المحامي">
+                <div class="card-body">
+                    <div>
+                        <h3>تفاصيل المحامي</h3>
+                        <p>عرض الملف الشخصي الكامل والسيرة الذاتية لـ المحامي المحدد.</p>
+                    </div>
+                    <!-- الانتقال لصفحة detail لرقم 1 كمثال -->
+                    <a href="{% url 'lawyer:detail' 1 %}" class="btn-card"><i class="fa-solid fa-address-card"></i> عرض
+                        التفاصيل</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 3. أساسيات البرمجة: استخدام الحلقات (For Loop) -->
+        <h2 class="section-title">فريق العمل والمحامين (For Loop)</h2>
+        <div class="actions-grid" style="margin-bottom: 2rem;">
+            {% for lawyer in lawyers_list %}
+            <div class="action-card" style="padding: 15px; text-align: right;">
+                <h3 style="color: var(--primary-gold);">#{{ forloop.counter }} - {{ lawyer.name }}</h3>
+                <p style="margin-bottom: 0.5rem; color: var(--text-main);"><strong>التخصص:</strong> {{ lawyer.specialty
+                    }}</p>
+                <a href="{% url 'lawyer:detail' lawyer.id %}"
+                    style="color: var(--bg-dark); font-weight: bold; text-decoration: none;">الملف الشخصي &larr;</a>
+            </div>
+            {% empty %}
+            <p style="text-align: center; grid-column: 1 / -1;">لا يوجد محامين حالياً في القائمة.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 جميع الحقوق محفوظة لـ <span>مكتب رؤية للمحاماة والاستشارات القانونية</span></p>
+    </footer>
+
+    {% endwith %}
+
+</body>
+
+</html>

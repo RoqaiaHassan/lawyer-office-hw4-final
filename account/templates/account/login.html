@@ -1,0 +1,23 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}تسجيل الدخول{% endblock %}
+{% block content %}
+<div
+    style="max-width: 500px; margin: 40px auto; padding: 24px; background: rgba(255,255,255,0.04); border: 1px solid #c5a059; border-radius: 16px;">
+    <h2 style="color:#c5a059;">تسجيل الدخول</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+        <div style="margin-bottom: 14px;">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+            <div style="color:#ff8a8a; font-size:0.9rem; margin-top:4px;">{{ field.errors|striptags }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="nav-btn" style="border:none; cursor:pointer;">دخول</button>
+    </form>
+    <p style="margin-top: 12px;"><a href="{% url 'account:register' %}" style="color:#c5a059;">إنشاء حساب جديد</a></p>
+</div>
+{% endblock %}

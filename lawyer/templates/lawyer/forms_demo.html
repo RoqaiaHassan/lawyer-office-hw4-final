@@ -1,0 +1,142 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}طرق كتابة الفورم الثلاث - تكليف هندسة البرمجيات{% endblock %}
+
+{% block content %}
+<div style="width: 92%; max-width: 1200px; margin: 40px auto; direction: rtl;">
+
+    <!-- الهيدر التوضيحي -->
+    <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95)); border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 16px; padding: 28px; margin-bottom: 35px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div>
+                <span style="background: rgba(197, 160, 89, 0.2); color: var(--primary-gold); font-size: 0.85rem; padding: 5px 14px; border-radius: 20px; font-weight: 700; border: 1px solid rgba(197, 160, 89, 0.3);">
+                    <i class="fa-solid fa-graduation-cap"></i> ثلاث طرق لكتابة الفورم في Django
+                </span>
+                <h1 style="color: var(--light-gold); font-size: 2rem; margin: 12px 0 6px 0; font-weight: 800;">
+                    <i class="fa-solid fa-list-check" style="color: var(--primary-gold); margin-left: 10px;"></i> استعراض وتطبيق طرق الفورم الثلاث
+                </h1>
+                <p style="color: var(--text-muted); font-size: 1rem; margin: 0; line-height: 1.6;">
+                    تطبيق واجهات ونماذج تفاعلية تستخدم الطرق الثلاث المختلفة المعتمَدة في Django لكتابة ومعالجة النماذج (Forms).
+                </p>
+            </div>
+            <a href="{% url 'lawyer:queryset_homework' %}" style="background: rgba(197,160,89,0.15); color: var(--light-gold); border: 1px solid var(--primary-gold); padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; transition: 0.3s;">
+                <i class="fa-solid fa-arrow-right" style="margin-left: 6px;"></i> دوال QuerySet السبع
+            </a>
+        </div>
+    </div>
+
+    <!-- شبكة عرض الطرق الثلاث للفورم -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px;">
+
+        <!-- الطريقة الأولى: ModelForm -->
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(40, 167, 69, 0.4); border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px;">
+                <h3 style="color: #28a745; margin: 0; font-size: 1.2rem; font-weight: 800;">
+                    <i class="fa-solid fa-database" style="margin-left: 8px;"></i> الطريقة الأولى: ModelForm
+                </h3>
+                <span style="background: rgba(40,167,69,0.2); color: #28a745; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 700;">forms.ModelForm</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">
+                <strong>الوصف:</strong> فورم ينشأ مباشرة بناءً على كلاس الموديل (<code style="color:#28a745;">Lawyer</code>). يولد الحقول والعلاقات (مثل 1-to-1 و Many-to-Many) آلياً مع التوثيق المباشر بالقاعدة.
+            </p>
+            <div style="background: #090d16; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 0.8rem; color: #64b5f6; margin-bottom: 20px; dir: ltr; text-align: left;">
+                class LawyerForm(forms.ModelForm):<br>
+                &nbsp;&nbsp;class Meta:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;model = Lawyer
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);">
+                {% if user.is_staff or user.is_superuser %}
+                <a href="{% url 'lawyer:lawyer_add' %}" style="display: inline-block; width: 100%; text-align: center; background: #28a745; color: #fff; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 700;">
+                    <i class="fa-solid fa-plus-circle"></i> تجربة إضافة محامي عبر ModelForm
+                </a>
+                {% else %}
+                <div style="color: var(--text-muted); font-size: 0.85rem; text-align: center;">
+                    المسجلين برتبة إدارية يمكنهم إضافة المحامين عبر ModelForm.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- الطريقة الثانية: forms.Form -->
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(99, 179, 237, 0.4); border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px;">
+                <h3 style="color: #63b3ed; margin: 0; font-size: 1.2rem; font-weight: 800;">
+                    <i class="fa-solid fa-sliders" style="margin-left: 8px;"></i> الطريقة الثانية: forms.Form
+                </h3>
+                <span style="background: rgba(99,179,237,0.2); color: #63b3ed; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 700;">forms.Form</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">
+                <strong>الوصف:</strong> فورم مخصص يبنى يدوياً باستخدام كلاس <code style="color:#63b3ed;">forms.Form</code> حقل بحقل دون ربط مباشر بموديل معين، ويتم استقبال وقراءة <code style="color:#63b3ed;">cleaned_data</code> في الـ View.
+            </p>
+
+            <!-- نموذج تجريبي شغال للطريقة الثانية -->
+            <form method="post" style="display: flex; flex-direction: column; gap: 12px;">
+                {% csrf_token %}
+                <div>
+                    <label style="color: var(--text-light); font-size: 0.85rem; display: block; margin-bottom: 4px;">الاسم الكامل:</label>
+                    {{ standard_form.full_name }}
+                </div>
+                <div>
+                    <label style="color: var(--text-light); font-size: 0.85rem; display: block; margin-bottom: 4px;">البريد الإلكتروني:</label>
+                    {{ standard_form.email_address }}
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                        <label style="color: var(--text-light); font-size: 0.85rem; display: block; margin-bottom: 4px;">نوع الاستشارة:</label>
+                        {{ standard_form.consultation_type }}
+                    </div>
+                    <div style="flex: 1;">
+                        <label style="color: var(--text-light); font-size: 0.85rem; display: block; margin-bottom: 4px;">مستوى الأهمية:</label>
+                        {{ standard_form.urgency_level }}
+                    </div>
+                </div>
+                <div>
+                    <label style="color: var(--text-light); font-size: 0.85rem; display: block; margin-bottom: 4px;">تفاصيل الاستشارة:</label>
+                    {{ standard_form.details }}
+                </div>
+                <button type="submit" name="submit_standard" value="1" style="background: #3182ce; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 5px;">
+                    <i class="fa-solid fa-paper-plane"></i> إرسال نموذج (forms.Form)
+                </button>
+            </form>
+        </div>
+
+        <!-- الطريقة الثالثة: HTML Form يدوي مع View Handling -->
+        <div style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(236, 201, 75, 0.4); border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px;">
+                <h3 style="color: #ecc94b; margin: 0; font-size: 1.2rem; font-weight: 800;">
+                    <i class="fa-solid fa-code-compare" style="margin-left: 8px;"></i> الطريقة الثالثة: HTML Form يدوي
+                </h3>
+                <span style="background: rgba(236,201,75,0.2); color: #ecc94b; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 700;">Raw HTML + request.POST</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px;">
+                <strong>الوصف:</strong> فورم مكتوب بكود HTML خالص دون استخدام كلاسات من <code style="color:#ecc94b;">forms.py</code>، ويستقبل الـ View بياناته مباشرة من <code style="color:#ecc94b;">request.POST.get(...)</code> ويقوم بحفظها يدويًا.
+            </p>
+
+            <!-- نموذج تجريبي شغال للطريقة الثالثة -->
+            <form method="post" style="display: flex; flex-direction: column; gap: 12px;">
+                {% csrf_token %}
+                <div>
+                    <label style="color: var(--text-light); font-size: 0.85rem; display: block; margin-bottom: 4px;">الاسم (HTML Input):</label>
+                    <input type="text" name="raw_name" class="form-control" placeholder="أدخل الاسم يدويًا في HTML" required>
+                </div>
+                <div>
+                    <label style="color: var(--text-light); font-size: 0.85rem; display: block; margin-bottom: 4px;">رقم الجوال:</label>
+                    <input type="text" name="raw_phone" class="form-control" placeholder="05XXXXXXXX">
+                </div>
+                <div>
+                    <label style="color: var(--text-light); font-size: 0.85rem; display: block; margin-bottom: 4px;">الموضوع:</label>
+                    <input type="text" name="raw_subject" class="form-control" placeholder="موضوع الرسالة اليدوية">
+                </div>
+                <div>
+                    <label style="color: var(--text-light); font-size: 0.85rem; display: block; margin-bottom: 4px;">نص الرسالة:</label>
+                    <textarea name="raw_message" class="form-control" rows="3" placeholder="اكتب رسالتك في وسم textarea اليدوي" required></textarea>
+                </div>
+                <button type="submit" name="submit_manual_html" value="1" style="background: #d69e2e; color: #0f172a; border: none; padding: 10px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 5px;">
+                    <i class="fa-solid fa-bolt"></i> إرسال نموذج HTML يدوي لـ View
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'lawyer/base.html' %}
+{% block title %}البطاقة المكتبية - {{ lawyer.name }}{% endblock %}
+
+{% block content %}
+<div style="width: 90%; max-width: 650px; margin: 40px auto; direction: rtl;">
+
+    <div style="background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(197, 160, 89, 0.3); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
+        <div style="text-align: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 15px;">
+            <span style="background: rgba(197,160,89,0.2); color: var(--primary-gold); font-size: 0.8rem; padding: 4px 12px; border-radius: 15px; font-weight: 700;">
+                <i class="fa-solid fa-id-card"></i> البطاقة المهنية للمحامي
+            </span>
+            <h2 style="color: var(--light-gold); font-size: 1.6rem; margin: 12px 0 5px 0; font-weight: 800;">
+                تعديل البطاقة المكتبية للمحامي
+            </h2>
+            <h4 style="color: var(--secondary-gold); margin: 0; font-weight: 700;">{{ lawyer.name }}</h4>
+        </div>
+
+        <form method="post" style="display: flex; flex-direction: column; gap: 18px;">
+            {% csrf_token %}
+            <div>
+                <label style="color: var(--text-light); font-size: 0.9rem; display: block; margin-bottom: 6px; font-weight: 700;">رقم البطاقة المهنية:</label>
+                {{ form.card_number }}
+            </div>
+            <div>
+                <label style="color: var(--text-light); font-size: 0.9rem; display: block; margin-bottom: 6px; font-weight: 700;">رقم القاعة / المكتب:</label>
+                {{ form.office_room }}
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 10px;">
+                <button type="submit" style="flex: 1; background: var(--primary-gold); color: #0f172a; border: none; padding: 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 0.95rem;">
+                    <i class="fa-solid fa-save"></i> حفظ البيانات المكتبية
+                </button>
+                <a href="{% url 'lawyer:lawyer_list' %}" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-muted); padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 700; text-align: center;">
+                    إلغاء
+                </a>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
