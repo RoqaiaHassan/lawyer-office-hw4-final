@@ -35,7 +35,7 @@
   <img src="screenshots/img2.png" alt="واجهة  من المشروع" width="48%">
   <br>
   <img src="screenshots/img5.png" alt="نماذج المشروع" width="48%">
-  <img src="screenshots/img7.jpg" alt="صفحة من المشروع" width="48%">
+  <img src="screenshots/img9.jpg" alt="صفحة من المشروع" width="48%">
 </div>
 
 <a id="features"></a>
@@ -106,7 +106,7 @@
    DB_USER=postgres
    DB_PASSWORD=*******
    DB_HOST=127.0.0.1
-   DB_PORT=5432
+   DB_PORT=****
 
    ```
 
@@ -144,11 +144,6 @@
 python manage.py test
 ```
 
-## ملاحظات أمنية
-
-هذا المشروع معدّ للتعلم والتطوير المحلي. قبل نشره للعامة، انقل `SECRET_KEY` إلى متغير بيئة، عطّل `DEBUG`، واضبط `ALLOWED_HOSTS` وإعدادات HTTPS والبريد وفق بيئة الاستضافة. لا تستخدم بيانات اعتماد حقيقية داخل المستودع.
-
----
 
 <div align="center" dir="rtl">
   مشروع تعليمي لإدارة مكتب محاماة باستخدام Django
