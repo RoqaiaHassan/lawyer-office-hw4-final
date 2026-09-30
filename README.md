@@ -35,7 +35,7 @@
   <img src="screenshots/img2.png" alt="واجهة  من المشروع" width="48%">
   <br>
   <img src="screenshots/img5.png" alt="نماذج المشروع" width="48%">
-  <img src="screenshots/img9.jpg" alt="صفحة من المشروع" width="48%">
+  <img src="screenshots/img9.png" alt="صفحة من المشروع" width="48%">
 </div>
 
 <a id="features"></a>
