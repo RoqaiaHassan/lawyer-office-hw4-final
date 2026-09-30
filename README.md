@@ -144,6 +144,7 @@
 python manage.py test
 ```
 
+---
 
 <div align="center" dir="rtl">
   مشروع تعليمي لإدارة مكتب محاماة باستخدام Django
