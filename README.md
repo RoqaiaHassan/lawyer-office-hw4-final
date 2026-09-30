@@ -32,10 +32,10 @@
 
 <div align="center">
   <img src="screenshots/img1.png" alt="واجهة من المشروع" width="48%">
-  <img src="screenshots/img2.png" alt="واجهة إضافية من المشروع" width="48%">
+  <img src="screenshots/img2.png" alt="واجهة  من المشروع" width="48%">
   <br>
-  <img src="screenshots/img4_form.png" alt="نماذج المشروع" width="48%">
-  <img src="screenshots/img8.jpg" alt="صفحة من المشروع" width="48%">
+  <img src="screenshots/img5.png" alt="نماذج المشروع" width="48%">
+  <img src="screenshots/img7.jpg" alt="صفحة من المشروع" width="48%">
 </div>
 
 <a id="features"></a>
@@ -104,16 +104,12 @@
    ```dotenv
    DB_NAME=lawyer_office
    DB_USER=postgres
-   DB_PASSWORD=غيّرني
+   DB_PASSWORD=*******
    DB_HOST=127.0.0.1
    DB_PORT=5432
 
-   OFFICE_NAME=Vision Law Office
-   EMAIL_HOST_USER=
-   EMAIL_HOST_PASSWORD=
    ```
 
-   إعداد البريد اختياري ما لم تستخدم ميزة إرسال البريد. لا ترفع ملف `.env` أو كلمات المرور إلى GitHub.
 
 5. طبّق ترحيلات قاعدة البيانات وأنشئ حساب مشرف:
 
